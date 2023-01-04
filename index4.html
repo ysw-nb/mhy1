@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>手机销售数据调查</title>
+        <link rel="icon" href="favicon.ico" type="image/ico">
+        <meta name="author" content="yinqi">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="css/style.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="lyear-layout-web">
+            <div class="lyear-layout-container">
+                <!--左侧导航-->
+                <aside class="lyear-layout-sidebar">
+                    <!-- logo -->
+                    <div id="logo" class="sidebar-header">
+                        <a href="index.html">
+                            <img src="images/logo-sidebar.png" title="LightYear" alt="LightYear">
+                        </a>
+                    </div>
+                    <div class="lyear-layout-sidebar-scroll">
+                        <nav class="sidebar-main">
+                            <ul class="nav nav-drawer">
+                                <li class="nav-item active">
+                                    <a href="index.html">
+                                        <i class="mdi mdi-home"></i>
+                                        首页
+                                    </a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a href="index2.html">
+                                        <i class="mdi mdi-home-assistant"></i>
+                                        总统计
+                                    </a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a href="index3.html">
+                                        <i class="mdi mdi-home-modern"></i>
+                                        销量榜
+                                    </a>
+                                </li>
+                                <li class="nav-item active">
+                                    <a href="index4.html" style="color: #33cabb;">
+                                        <i class="mdi mdi-home-variant"></i>
+                                        类型统计
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="sidebar-footer">
+                            <p class="copyright">
+                                @手机销售数据调查分析
+                            </p>
+                        </div>
+                    </div>
+                </aside>
+                <!--End 左侧导航-->
+                <!--头部信息-->
+                <header class="lyear-layout-header">
+                    <nav class="navbar navbar-default">
+                        <div class="topbar">
+                            <div class="topbar-left">
+                                <div class="lyear-aside-toggler">
+                                    <span class="lyear-toggler-bar"></span>
+                                    <span class="lyear-toggler-bar"></span>
+                                    <span class="lyear-toggler-bar"></span>
+                                </div>
+                                <span class="navbar-page-title">首页</span>
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+                <!--End 头部信息-->
+                <!--页面主要内容-->
+                <main class="lyear-layout-content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>2022年手机订单数</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="main" style="height: 500px; width:100%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <!--End 页面主要内容-->
+            </div>
+        </div>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/perfect-scrollbar.min.js"></script>
+        <script type="text/javascript" src="js/main.min.js"></script>
+        <!--图表插件-->
+        <script type="text/javascript" src="js/Chart.js"></script>
+        <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.1/echarts.min.js"></script>
+        <script type="text/javascript">
+// $(document).ready(function(e) {
+
+
+    var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom);
+        const builderJson = {
+  all: 10887,
+  charts: { 
+    '华为': 7778,
+    'vivo': 7355,
+    '三星': 2405,
+    'oppo': 1842,
+    '努比亚': 2090, 
+    '小米': 3090, 
+    '一加': 2090, 
+  },
+  components: {
+    "iPhone 14Pro": 2788,
+    "iPhone 14": 9575,
+    "iPhone 13": 9400,
+    "iPhone 13Pro": 9466,
+    "iPhone 12": 9266,
+    "iPhone 11": 3419, 
+  },
+  ie: 9743
+};
+const downloadJson = {
+    '华为': 7778,
+    'vivo': 7355,
+    '三星': 2405,
+    'oppo': 1842,
+    '努比亚': 2090, 
+    '小米': 3090, 
+    '一加': 2090, 
+};
+const themeJson = {
+    "iPhone 14Pro": 2788,
+    "iPhone 14": 9575,
+    "iPhone 13": 9400,
+    "iPhone 13Pro": 9466,
+    "iPhone 12": 9266,
+    "iPhone 11": 3419, 
+};
+const waterMarkText = 'ECHARTS';
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = canvas.height = 100;
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.globalAlpha = 0.08;
+ctx.font = '20px Microsoft Yahei';
+ctx.translate(50, 50);
+ctx.rotate(-Math.PI / 4);
+ctx.fillText(waterMarkText, 0, 0);
+option = {
+  backgroundColor: {
+    type: 'pattern',
+    image: canvas,
+    repeat: 'repeat'
+  },
+  tooltip: {},
+  title: [
+    {
+      text: '手机销售出货量',
+      subtext: '总计 ' + builderJson.all,
+      left: '25%',
+      textAlign: 'center'
+    },
+    {
+      text: 'ios',
+      subtext:
+        '总计 ' +
+        Object.keys(downloadJson).reduce(function (all, key) {
+          return all + downloadJson[key];
+        }, 0),
+      left: '75%',
+      textAlign: 'center'
+    },
+    {
+      text: 'Android',
+      subtext:
+        '总计 ' +
+        Object.keys(themeJson).reduce(function (all, key) {
+          return all + themeJson[key];
+        }, 0),
+      left: '75%',
+      top: '50%',
+      textAlign: 'center'
+    }
+  ],
+  grid: [
+    {
+      top: 50,
+      width: '50%',
+      bottom: '45%',
+      left: 10,
+      containLabel: true
+    },
+    {
+      top: '55%',
+      width: '50%',
+      bottom: 0,
+      left: 10,
+      containLabel: true
+    }
+  ],
+  xAxis: [
+    {
+      type: 'value',
+      max: builderJson.all,
+      splitLine: {
+        show: false
+      }
+    },
+    {
+      type: 'value',
+      max: builderJson.all,
+      gridIndex: 1,
+      splitLine: {
+        show: false
+      }
+    }
+  ],
+  yAxis: [
+    {
+      type: 'category',
+      data: Object.keys(builderJson.charts),
+      axisLabel: {
+        interval: 0,
+        rotate: 30
+      },
+      splitLine: {
+        show: false
+      }
+    },
+    {
+      gridIndex: 1,
+      type: 'category',
+      data: Object.keys(builderJson.components),
+      axisLabel: {
+        interval: 0,
+        rotate: 30
+      },
+      splitLine: {
+        show: false
+      }
+    }
+  ],
+  series: [
+    {
+      type: 'bar',
+      stack: 'chart',
+      z: 3,
+      label: {
+        position: 'right',
+        show: true
+      },
+      data: Object.keys(builderJson.charts).map(function (key) {
+        return builderJson.charts[key];
+      })
+    },
+    {
+      type: 'bar',
+      stack: 'chart',
+      silent: true,
+      itemStyle: {
+        color: '#eee'
+      },
+      data: Object.keys(builderJson.charts).map(function (key) {
+        return builderJson.all - builderJson.charts[key];
+      })
+    },
+    {
+      type: 'bar',
+      stack: 'component',
+      xAxisIndex: 1,
+      yAxisIndex: 1,
+      z: 3,
+      label: {
+        position: 'right',
+        show: true
+      },
+      data: Object.keys(builderJson.components).map(function (key) {
+        return builderJson.components[key];
+      })
+    },
+    {
+      type: 'bar',
+      stack: 'component',
+      silent: true,
+      xAxisIndex: 1,
+      yAxisIndex: 1,
+      itemStyle: {
+        color: '#eee'
+      },
+      data: Object.keys(builderJson.components).map(function (key) {
+        return builderJson.all - builderJson.components[key];
+      })
+    },
+    {
+      type: 'pie',
+      radius: [0, '30%'],
+      center: ['75%', '25%'],
+      data: Object.keys(downloadJson).map(function (key) {
+        return {
+          name: key.replace('.js', ''),
+          value: downloadJson[key]
+        };
+      })
+    },
+    {
+      type: 'pie',
+      radius: [0, '30%'],
+      center: ['75%', '75%'],
+      data: Object.keys(themeJson).map(function (key) {
+        return {
+          name: key.replace('.js', ''),
+          value: themeJson[key]
+        };
+      })
+    }
+  ]
+}; 
+        option && myChart.setOption(option);  
+// });
+        </script>
+        <script>
+                function tuichu() {
+                    window.location = './login.html'
+                }
+        </script>
+    </body>
+</html>
